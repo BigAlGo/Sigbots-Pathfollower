@@ -1,4 +1,6 @@
 #include "main.h"
+// look at this file for what my first prototype to implement, 
+// https://github.com/Pedro-Pathing/PedroPathing/blob/main/ftc/src/main/java/com/pedropathing/ftc/localization/localizers/DriveEncoderLocalizer.java
 
 /**
  * A callback function for LLEMU's center button.
