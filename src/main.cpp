@@ -1,15 +1,19 @@
 #include "main.h"
-// look at this file for what my first prototype to implement, 
-// https://github.com/Pedro-Pathing/PedroPathing/blob/main/ftc/src/main/java/com/pedropathing/ftc/localization/localizers/DriveEncoderLocalizer.java
-// My general idea
-// I already have a pidf controller and a localizer set up.
-// I want to use piecewise parametric equations to define a path
-// define the robots closest point on the path,
-// add a constant vaue to the t value of that point,
-// then point the robots heading at the point that the t + x value gives me
-// define a maximum t value which the robot can jump for smoothing curves
-// define the robots translational movement as inverse to the heading error with a minimum value
-
+/** 
+ * Look at this file for what my first prototype to implement for localizer,
+ * https://github.com/Pedro-Pathing/PedroPathing/blob/main/ftc/src/main/java/com/pedropathing/ftc/localization/localizers/DriveEncoderLocalizer.java
+ * Look here for how bezier curves work
+ * https://www.desmos.com/calculator/rjjdispdfb
+ *
+ * My general idea
+ * I already have a pidf controller and a localizer set up.
+ * I want to use piecewise parametric equations to define a path
+ * define the robots closest point on the path,
+ * add a constant vaue to the t value of that point,
+ * then point the robots heading at the point that the t + x value gives me
+ * define a maximum t value which the robot can jump for smoothing curves
+ * define the robots translational movement as inverse to the heading error with a minimum value
+ */
 
 /**
  * A callback function for LLEMU's center button.
