@@ -11,4 +11,7 @@ public:
     Pose(double X, double Y, double Heading);
 
     double distFrom(const Pose& otherPose) const;
+
+    Pose operator+(const Pose& other) const;
+    Pose operator-(const Pose& other) const;
 };

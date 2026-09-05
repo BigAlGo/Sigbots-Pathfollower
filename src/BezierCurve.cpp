@@ -4,10 +4,11 @@
 #include <cmath>
 #include <algorithm>
 #include <stdexcept>
+using Matrix = std::vector<std::vector<double>>;
 
 // creates pascal's triangle in a n+1 x n+1 matrix
-static std::vector<std::vector<double>> pascalTriangle(int n) {
-    std::vector<std::vector<double>> C(n + 1, std::vector<double>(n+1, 0.0));
+static Matrix pascalTriangle(int n) {
+    Matrix C(n + 1, std::vector<double>(n+1, 0.0));
     for (int m = 0; m <= n; ++m) {
         C[m][0] = 1.0;
         C[m][m] = 1.0;
@@ -122,6 +123,10 @@ double BezierCurve::getTFromDistance(double distance) const {
         t = next;
     }
     return t;
+}
+
+double BezierCurve::getDistanceFromT(double t) const {
+    return (totalLength_ * t);
 }
 
 Pose BezierCurve::getPoseAtDistance(double distance) const {

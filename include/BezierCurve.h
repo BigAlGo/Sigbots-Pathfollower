@@ -8,6 +8,8 @@ public:
 
     Pose getPoseAtT(double t) const;
     Pose getPoseAtDistance(double distance) const;
+    double getTFromDistance(double distance) const;
+    double getDistanceFromT(double t) const;
     double length() const { return totalLength_; }
 
 private:
@@ -25,5 +27,4 @@ private:
     double evalPoly(const std::vector<double>& coeffs, double t) const;
     double speedAt(double t) const;
     double arcLength(double tStart, double tEnd, int subdivisions) const;
-    double getTFromDistance(double distance) const;
 };
