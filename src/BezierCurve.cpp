@@ -1,9 +1,5 @@
 #include "BezierCurve.h"
 #include "Pose.h"
-#include <vector>
-#include <cmath>
-#include <algorithm>
-#include <stdexcept>
 using Matrix = std::vector<std::vector<double>>;
 
 // creates pascal's triangle in a n+1 x n+1 matrix
@@ -20,12 +16,20 @@ static Matrix pascalTriangle(int n) {
 }
 
 BezierCurve::BezierCurve(const std::vector<Pose>& controlPoints, int lutResolution) {
-    if (controlPoints.size() < 4) {
-        throw std::invalid_argument("BezierCurve needs more than 3 control points");
+    if (controlPoints.size() < 3) {
+        throw std::invalid_argument("BezierCurve needs 3 or more control points");
     }
     buildPowerBasis(controlPoints);
     buildDerivative();
     buildArcLengthTable(lutResolution);
+}
+
+BezierCurve::BezierCurve(int lutResolution) {
+    std::vector<Pose> controlPoints = {Pose(), Pose(), Pose()};
+    buildPowerBasis(controlPoints);
+    buildDerivative();
+    buildArcLengthTable(lutResolution);
+
 }
 
 void BezierCurve::buildPowerBasis(const std::vector<Pose>& pts) {
@@ -95,7 +99,7 @@ void BezierCurve::buildArcLengthTable(int resolution) {
     tSamples_[0] = 0.0;
     sSamples_[0] = 0.0;
     for (int i = 1; i <= resolution; ++i) {
-        double t = static_cast<double>(i) / resolution;
+        double t =  (i) / resolution;
         tSamples_[i] = t;
         sSamples_[i] = sSamples_[i - 1] + arcLength(tSamples_[i - 1], t, 4);
     }
@@ -112,6 +116,9 @@ double BezierCurve::getTFromDistance(double distance) const {
 
     double s0 = sSamples_[idx - 1], s1 = sSamples_[idx];
     double t0 = tSamples_[idx - 1], t1 = tSamples_[idx];
+
+    if (s1 - s0 == 0.0) return t0;
+
     double t = t0 + (distance - s0) / (s1 - s0) * (t1 - t0);   // initial guess
 
     for (int iter = 0; iter < 4; ++iter) {

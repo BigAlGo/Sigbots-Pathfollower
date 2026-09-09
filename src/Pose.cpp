@@ -1,5 +1,4 @@
 #include "Pose.h"
-#include <cmath>
 
 Pose::Pose() {
     x = 0.0;

@@ -1,9 +1,6 @@
 #pragma once
-#include <vector>
-#include <cstdint>
-#include "pros/motors.hpp"
+#include "api.h"
 #include "Pose.h"
-#include "main.h"
 #include "DriveLocalizerConstants.h"
 
 

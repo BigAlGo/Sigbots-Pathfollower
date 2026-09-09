@@ -1,4 +1,5 @@
 #pragma once
+#include "api.h"
 
 class Pose {
 public:

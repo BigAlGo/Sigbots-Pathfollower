@@ -1,5 +1,4 @@
 #include "PIDFController.h"
-#include <cmath>
 
 PIDFController::PIDFController(PIDFCoefficients set) {
     coefficients = set;
