@@ -20,20 +20,20 @@ static Matrix multiply(const Matrix& a, const Matrix& b) {
 }
 
 
-DriveEncoderLocalizer::DriveEncoderLocalizer(const DriveLocalizerConstants& c, const Pose& startPose)
-    : leftMotors_(c.leftMotorPorts),
-      rightMotors_(c.rightMotorPorts),
-      trackWidth_(c.trackWidthInches)
+DriveEncoderLocalizer::DriveEncoderLocalizer(DriveLocalizerConstants c, Pose startPose)
+    : leftMotors(std::make_unique<pros::MotorGroup>(c.leftMotorPorts)),
+      rightMotors(std::make_unique<pros::MotorGroup>(c.rightMotorPorts)),
+      trackWidth(c.trackWidthInches)
 {
-    inchesPerDegree_ = (c.wheelDiameterInches * M_PI) / 360.0 / c.externalGearRatio;
-    startPose_ = startPose;
-    displacementPose_ = Pose();
-    prevRotationMatrix_ = rotationMatrix(0.0);
+    inchesPerDegree = (c.wheelDiameterInches * M_PI) / 360.0 / c.externalGearRatio;
+    startPose = startPose;
+    displacementPose = Pose();
+    prevRotationMatrix = rotationMatrix(0.0);
     resetEncoders();
-    prevTimeMicros_ = pros::micros();
+    prevTimeMicros = pros::micros();
 }
 
-double DriveEncoderLocalizer::averagePosition(pros::MotorGroup& group) const {
+double DriveEncoderLocalizer::averagePosition(const pros::MotorGroup& group) const {
     std::vector<double> positions = group.get_position_all();
     double sum = 0.0;
     for (double p : positions) sum += p;
@@ -41,33 +41,33 @@ double DriveEncoderLocalizer::averagePosition(pros::MotorGroup& group) const {
 }
 
 void DriveEncoderLocalizer::resetEncoders() {
-    leftMotors_.tare_position_all();
-    rightMotors_.tare_position_all();
-    prevLeftDeg_ = 0.0;
-    prevRightDeg_ = 0.0;
+    leftMotors->tare_position_all();
+    rightMotors->tare_position_all();
+    prevLeftDeg = 0.0;
+    prevRightDeg = 0.0;
 }
 
 Matrix DriveEncoderLocalizer::getRobotDeltas() {
-    double leftDeg = averagePosition(leftMotors_);
-    double rightDeg = averagePosition(rightMotors_);
+    double leftDeg = averagePosition(*leftMotors);
+    double rightDeg = averagePosition(*rightMotors);
 
-    double leftInches = (leftDeg - prevLeftDeg_) * inchesPerDegree_;
-    double rightInches = (rightDeg - prevRightDeg_) * inchesPerDegree_;
+    double leftInches = (leftDeg - prevLeftDeg) * inchesPerDegree;
+    double rightInches = (rightDeg - prevRightDeg) * inchesPerDegree;
 
-    prevLeftDeg_ = leftDeg;
-    prevRightDeg_ = rightDeg;
+    prevLeftDeg = leftDeg;
+    prevRightDeg = rightDeg;
 
     Matrix deltas(3, std::vector<double>(1, 0.0));   // 3x1: forward, lateral, turn
     deltas[0][0] = (leftInches + rightInches) / 2.0;
     deltas[1][0] = 0.0;
-    deltas[2][0] = (rightInches - leftInches) / trackWidth_;
+    deltas[2][0] = (rightInches - leftInches) / trackWidth;
     return deltas;
 }
 
 void DriveEncoderLocalizer::update() {
     std::uint64_t now = pros::micros();
-    double deltaTimeSec = (now - prevTimeMicros_) / 1'000'000.0;
-    prevTimeMicros_ = now;
+    double deltaTimeSec = (now - prevTimeMicros) / 1'000'000.0;
+    prevTimeMicros = now;
 
     Matrix robotDeltas = getRobotDeltas();
     double turn = robotDeltas[2][0];
@@ -86,23 +86,23 @@ void DriveEncoderLocalizer::update() {
     }
     transformation[2][2] = 1.0;
 
-    Matrix globalDeltas = multiply(multiply(prevRotationMatrix_, transformation), robotDeltas);
+    Matrix globalDeltas = multiply(multiply(prevRotationMatrix, transformation), robotDeltas);
 
-    displacementPose_ = displacementPose_ + Pose(globalDeltas[0][0], globalDeltas[1][0], globalDeltas[2][0]);
-    prevRotationMatrix_ = rotationMatrix(getPose().heading);
-    totalHeading_ += globalDeltas[2][0];
+    displacementPose = displacementPose + Pose(globalDeltas[0][0], globalDeltas[1][0], globalDeltas[2][0]);
+    prevRotationMatrix = rotationMatrix(getPose().heading);
+    totalHeading += globalDeltas[2][0];
     (void)deltaTimeSec; // keep this if you add velocity tracking later; unused for pose alone
 }
 
 Pose DriveEncoderLocalizer::getPose() const {
-    return startPose_ + displacementPose_;
+    return startPose + displacementPose;
 }
 
 void DriveEncoderLocalizer::setStartPose(const Pose& pose) {
-    startPose_ = pose;
+    startPose = pose;
 }
 
 void DriveEncoderLocalizer::setPose(const Pose& pose) {
-    displacementPose_ = pose - startPose_;
+    displacementPose = pose - startPose;
     resetEncoders();
 }

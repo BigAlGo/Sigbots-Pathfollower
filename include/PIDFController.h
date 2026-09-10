@@ -4,25 +4,9 @@
 #include "PIDFCoefficients.h"
 
 class PIDFController {
-private:
-    PIDFCoefficients coefficients;
-
-    double previousError;
-    double error;
-    double position;
-    double targetPosition;
-    double errorIntegral;
-    double errorDerivative;
-    double feedForwardInput;
-
-    long long previousUpdateTimeNano;
-    long long deltaTimeNano;
-
-    // Helper method to fetch current time in nanoseconds
-    long long getSystemNanoTime() const;
-
 public:
     // Constructor accepts the static coefficients directly
+    PIDFController();
     PIDFController(PIDFCoefficients set);
 
     // Core PIDF operations
@@ -49,4 +33,21 @@ public:
 
     double getError() const;
     double getErrorDerivative() const;
+
+private:
+    PIDFCoefficients coefficients;
+
+    double previousError;
+    double error;
+    double position;
+    double targetPosition;
+    double errorIntegral;
+    double errorDerivative;
+    double feedForwardInput;
+
+    long long previousUpdateTimeNano;
+    long long deltaTimeNano;
+
+    // Helper method to fetch current time in nanoseconds
+    long long getSystemNanoTime() const;
 };

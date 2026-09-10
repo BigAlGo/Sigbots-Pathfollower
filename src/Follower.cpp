@@ -1,25 +1,22 @@
 #include "Follower.h"
 
-Follower::Follower( std::initializer_list<std::int8_t> leftPorts,
-                    std::initializer_list<std::int8_t> rightPorts,
-                    const DriveLocalizerConstants& constants,
-                    const Pose& startPose = Pose(), 
-                    const PIDFCoefficients& coeff)
-    :   drivetrain(leftPorts, rightPorts),
-        localizer(constants, startPose),
-        headingPID(coeff),
-        currentPath({Pose(0,0), Pose(1,1), Pose (0,1)})
+Follower::Follower( DriveLocalizerConstants constants,
+                    PIDFCoefficients coeff,
+                    Pose startPose) 
+    :   drivetrain(std::make_unique<Drivetrain>(constants.leftMotorPorts, constants.rightMotorPorts)),
+        localizer(std::make_unique<DriveEncoderLocalizer>(constants, startPose)),
+        headingPID(coeff)
 {
-
     this->constants = constants;
     this->currentPose = startPose;
+    breakFollowing();
 }
 
 void Follower::update() {
     double thisTickTurnPower;
     double thisTickDrivePower;
-    localizer.update();
-    currentPose = localizer.getPose();
+    localizer->update();
+    currentPose = localizer->getPose();
 
     if (isBusy) {
         setClosestTValue();
@@ -28,16 +25,16 @@ void Follower::update() {
             setHeadingError();
             thisTickTurnPower = headingPID.run();
             thisTickDrivePower = getForwardPower(headingPID.getError());
-            drivetrain.setLeftPower(thisTickDrivePower + thisTickTurnPower);
-            drivetrain.setRightPower(thisTickDrivePower - thisTickTurnPower);
+            drivetrain->setLeftPower(thisTickDrivePower + thisTickTurnPower);
+            drivetrain->setRightPower(thisTickDrivePower - thisTickTurnPower);
         } else {
             breakFollowing();
-            drivetrain.stop();
+            drivetrain->stop();
         }
     }
 }
 
-void Follower::followCurve(const BezierCurve& curve) {
+void Follower::followCurve(BezierCurve curve) {
     breakFollowing();
     currentPath = curve;
     isBusy = true;
@@ -110,6 +107,7 @@ double Follower::getForwardPower(double headingError) {
 
 void Follower::breakFollowing() {
     endTFlag = false;
+    isBusy = false;
     headingPID.reset();
     currentPath = BezierCurve();
 }

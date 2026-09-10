@@ -7,23 +7,22 @@
 
 class Follower {
 public:
-    DriveEncoderLocalizer localizer;
+    std::unique_ptr<DriveEncoderLocalizer> localizer;
+    std::unique_ptr<Drivetrain> drivetrain;
     BezierCurve currentPath;
-    Drivetrain drivetrain;
 
-    Follower::Follower( std::initializer_list<std::int8_t> leftPorts,
-                        std::initializer_list<std::int8_t> rightPorts,
-                        const DriveLocalizerConstants& constants,
-                        const Pose& startPose = Pose(), 
-                        const PIDFCoefficients& coeff);
-    bool isBusy() const { return isBusy; }
-    void followCurve(const BezierCurve& curve);
+    Follower( DriveLocalizerConstants constants,
+                        PIDFCoefficients coeff,
+                        Pose startPose = Pose()); 
+
+    void followCurve(BezierCurve curve);
     void breakFollowing();
     void update();
 
+    bool isBusy;
+
 private:
 
-    void setClosestTValue();
     void setClosestTValue();
     void setTargetPose();
     void setHeadingError();
@@ -31,12 +30,11 @@ private:
 
     DriveLocalizerConstants constants;
     PIDFController headingPID;
+
     Pose currentPose;
     Pose targetPose;
 
     bool endTFlag = false;
-    bool isBusy;
-
 
     // Should be put in localizer constants eventually
     int curveSearchResolutuon = 300;

@@ -5,8 +5,8 @@
 class BezierCurve {
 public:
     // Call with BezierCurve({Pose(), Pose(), Pose()})
-    explicit BezierCurve(const std::vector<Pose>& controlPoints, int lutResolution = 500);
-    explicit BezierCurve(int lutResolution = 500);
+    BezierCurve(const std::vector<Pose>& controlPoints, int lutResolution = 500);
+    BezierCurve(int lutResolution = 500);
 
     Pose getPoseAtT(double t) const;
     Pose getPoseAtDistance(double distance) const;

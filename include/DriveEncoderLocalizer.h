@@ -8,32 +8,32 @@ using Matrix = std::vector<std::vector<double>>;
 
 class DriveEncoderLocalizer {
 public:
-    DriveEncoderLocalizer(const DriveLocalizerConstants& constants,
-                          const Pose& startPose = Pose());
+    DriveEncoderLocalizer(DriveLocalizerConstants constants,
+                          Pose startPose = Pose());
 
     Pose getPose() const;
     void setStartPose(const Pose& pose);
     void setPose(const Pose& pose);
     void update();
-    double getTotalHeading() const { return totalHeading_; }
+    double getTotalHeading() const { return totalHeading; }
 
 private:
-    pros::MotorGroup leftMotors_;
-    pros::MotorGroup rightMotors_;
+    std::unique_ptr<pros::MotorGroup> leftMotors;
+    std::unique_ptr<pros::MotorGroup> rightMotors;
 
-    double inchesPerDegree_;
-    double trackWidth_;
+    double inchesPerDegree;
+    double trackWidth;
 
-    Pose startPose_;
-    Pose displacementPose_;
-    Matrix prevRotationMatrix_;
-    double totalHeading_ = 0.0;
+    Pose startPose;
+    Pose displacementPose;
+    Matrix prevRotationMatrix;
+    double totalHeading = 0.0;
 
-    double prevLeftDeg_ = 0.0;
-    double prevRightDeg_ = 0.0;
-    std::uint64_t prevTimeMicros_ = 0;
+    double prevLeftDeg = 0.0;
+    double prevRightDeg = 0.0;
+    std::uint64_t prevTimeMicros = 0;
 
     void resetEncoders();
-    double averagePosition(pros::MotorGroup& group) const;
+    double averagePosition(const pros::MotorGroup& group) const;
     Matrix getRobotDeltas();
 };
