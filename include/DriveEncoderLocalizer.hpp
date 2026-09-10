@@ -23,6 +23,8 @@ private:
 
     double inchesPerDegree;
     double trackWidth;
+    double forwardSlipFactor;
+    double turnSlipFactor;
 
     Pose startPose;
     Pose displacementPose;

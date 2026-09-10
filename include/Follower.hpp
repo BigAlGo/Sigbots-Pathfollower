@@ -23,10 +23,12 @@ public:
     void breakFollowing();
     void breakFollowingChain();
     void update();
+    Pose getPose() { return currentPose; };
+    Pose getTargetPose() { return targetPose; };
 
     bool isBusy;
 
-private:
+// private:
 
     void followNextCurve();
     void setClosestTValue();

@@ -5,12 +5,12 @@ CurveChain::CurveChain() {
     this->constants;
 }
 
-CurveChain::CurveChain(const std::initializer_list<BezierCurve>& bezierCurves, DriveLocalizerConstants constants = DriveLocalizerConstants()) {
+CurveChain::CurveChain(const std::initializer_list<BezierCurve>& bezierCurves, DriveLocalizerConstants constants) {
     this->bezierCurves = bezierCurves;
     this->constants = constants;
 }
 
-CurveChain::CurveChain(const std::vector<BezierCurve>& bezierCurves, DriveLocalizerConstants constants = DriveLocalizerConstants()) {
+CurveChain::CurveChain(const std::vector<BezierCurve>& bezierCurves, DriveLocalizerConstants constants) {
     this->bezierCurves = bezierCurves;
     this->constants = constants;
 }

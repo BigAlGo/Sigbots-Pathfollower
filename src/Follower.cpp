@@ -178,7 +178,6 @@ void Follower::breakFollowing() {
     lastClosestTValue = 0.0;
     followingChainFlag = false;
     currentPath = BezierCurve();
-    headingPID.reset(); // consider removing
 }
 
 void Follower::breakFollowingChain() {

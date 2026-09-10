@@ -105,18 +105,31 @@ void opcontrol() {
 	coeff.D = 0.022;
 	coeff.F = 0.09;
 
-	Follower follower = Follower(constants, coeff, Pose());
+	// Follower follower = Follower(constants, coeff, Pose(-63.5, -48, 0));
+	Follower follower = Follower(constants, coeff, Pose(48, -48, 0));
 
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-	follower.followCurve(Paths::toRightWallZig);
+	follower.followCurveChain(CurveChain({Paths::toRightWallZig, Paths::toLeftWallZag}));
+	// follower.followCurve(Paths::toRightWallZig);
+	
+	std::uint32_t lastPrintTime = -500;
 
 	while (true) {
 
 		follower.update();
-		
+		if (pros::millis() - lastPrintTime >= 1000) {
+            std::cout << "Robot's Pose: " << follower.getPose() << "\n";
+            lastPrintTime = pros::millis();
+        }
 
-		pros::delay(40);
+		// double forward = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
+        // double turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0 / 2.0;
+
+		// follower.drivetrain->setLeftPowerSlew((forward + turn));
+		// follower.drivetrain->setRightPowerSlew((forward - turn));
+
+		pros::delay(50);
 
 	}
 }

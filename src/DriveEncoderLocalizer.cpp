@@ -23,10 +23,13 @@ static Matrix multiply(const Matrix& a, const Matrix& b) {
 DriveEncoderLocalizer::DriveEncoderLocalizer(DriveLocalizerConstants c, Pose startPose)
     : leftMotors(std::make_unique<pros::MotorGroup>(c.leftMotorPorts)),
       rightMotors(std::make_unique<pros::MotorGroup>(c.rightMotorPorts)),
-      trackWidth(c.trackWidthInches)
+      trackWidth(c.trackWidthInches),
+      forwardSlipFactor(c.forwardSlipFactor),
+      turnSlipFactor(c.turnSlipFactor)
+
 {
     inchesPerDegree = (c.wheelDiameterInches * M_PI) / 360.0 / c.externalGearRatio;
-    startPose = startPose;
+    this->startPose = startPose;
     displacementPose = Pose();
     prevRotationMatrix = rotationMatrix(0.0);
     resetEncoders();
@@ -58,9 +61,9 @@ Matrix DriveEncoderLocalizer::getRobotDeltas() {
     prevRightDeg = rightDeg;
 
     Matrix deltas(3, std::vector<double>(1, 0.0));   // 3x1: forward, lateral, turn
-    deltas[0][0] = (leftInches + rightInches) / 2.0;
+    deltas[0][0] = (leftInches + rightInches) / 2.0 * forwardSlipFactor;
     deltas[1][0] = 0.0;
-    deltas[2][0] = (rightInches - leftInches) / trackWidth;
+    deltas[2][0] = (rightInches - leftInches) / trackWidth * turnSlipFactor;
     return deltas;
 }
 

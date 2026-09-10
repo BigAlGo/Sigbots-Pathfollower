@@ -5,7 +5,7 @@
 // #include <cstdint>
 
 struct DriveLocalizerConstants {
-    DriveLocalizerConstants();
+    DriveLocalizerConstants() = default;
 
     std::vector<std::int8_t> leftMotorPorts = {1, 11};
     std::vector<std::int8_t> rightMotorPorts = {-20, -10};
@@ -20,8 +20,10 @@ struct DriveLocalizerConstants {
     double endTValue = 0.95;
     double endTValueChain = 0.95;
     double maxDistJump = 20;
-    double lookAheadDist = 7;
-    double maxPower = 0.5;
+    double lookAheadDist = 12;
+    double maxPower = 0.25;
     double maxPowerTreshold = std::numbers::pi / 16;
+    double forwardSlipFactor = 0.908;
+    double turnSlipFactor = 0.87;
 
 };

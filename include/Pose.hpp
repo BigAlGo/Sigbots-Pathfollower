@@ -15,4 +15,8 @@ public:
 
     Pose operator+(const Pose& other) const;
     Pose operator-(const Pose& other) const;
+    std::string toString() const;
+
 };
+
+std::ostream& operator<<(std::ostream& os, const Pose& pose);
