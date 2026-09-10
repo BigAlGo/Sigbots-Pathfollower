@@ -105,12 +105,12 @@ void opcontrol() {
 	coeff.D = 0.022;
 	coeff.F = 0.09;
 
-	// Follower follower = Follower(constants, coeff, Pose(-63.5, -48, 0));
-	Follower follower = Follower(constants, coeff, Pose(48, -48, 0));
+	Follower follower = Follower(constants, coeff, Pose(-63.5, -48, 0));
+	// Follower follower = Follower(constants, coeff, Pose(48, -48, 0));
 
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-	follower.followCurveChain(CurveChain({Paths::toRightWallZig, Paths::toLeftWallZag}));
+	follower.followCurveChain(CurveChain({Paths::toRightWallZig, Paths::toBottomWallZigy, Paths::toLeftWallZag}));
 	// follower.followCurve(Paths::toRightWallZig);
 	
 	std::uint32_t lastPrintTime = -500;
