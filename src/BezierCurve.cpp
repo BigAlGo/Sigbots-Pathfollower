@@ -15,6 +15,15 @@ static Matrix pascalTriangle(int n) {
     return C;
 }
 
+BezierCurve::BezierCurve(const std::initializer_list<Pose>& controlPoints, int lutResolution) {
+    if (controlPoints.size() < 3) {
+        throw std::invalid_argument("BezierCurve needs 3 or more control points");
+    }
+    buildPowerBasis(controlPoints);
+    buildDerivative();
+    buildArcLengthTable(lutResolution);
+}
+
 BezierCurve::BezierCurve(const std::vector<Pose>& controlPoints, int lutResolution) {
     if (controlPoints.size() < 3) {
         throw std::invalid_argument("BezierCurve needs 3 or more control points");

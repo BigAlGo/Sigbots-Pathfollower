@@ -104,17 +104,17 @@ void opcontrol() {
 	coeff.I = 0.01;
 	coeff.D = 0.022;
 	coeff.F = 0.09;
-	
+
 	Follower follower = Follower(constants, coeff, Pose());
 
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 
+	follower.followCurve(Paths::toRightWallZig);
 
 	while (true) {
 
+		follower.update();
 		
-
-
 
 		pros::delay(40);
 

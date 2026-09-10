@@ -5,6 +5,7 @@
 class BezierCurve {
 public:
     // Call with BezierCurve({Pose(), Pose(), Pose()})
+    BezierCurve(const std::initializer_list<Pose>& controlPoints, int lutResolution = 500);
     BezierCurve(const std::vector<Pose>& controlPoints, int lutResolution = 500);
     BezierCurve(int lutResolution = 500);
 
