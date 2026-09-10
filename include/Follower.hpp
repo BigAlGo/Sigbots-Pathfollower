@@ -1,9 +1,9 @@
-#include "Pose.h"
-#include "BezierCurve.h"
-#include "DriveLocalizerConstants.h"
-#include "DriveEncoderLocalizer.h"
-#include "PIDFController.h"
-#include "Drivetrain.h"
+#include "Pose.hpp"
+#include "BezierCurve.hpp"
+#include "DriveLocalizerConstants.hpp"
+#include "DriveEncoderLocalizer.hpp"
+#include "PIDFController.hpp"
+#include "Drivetrain.hpp"
 
 class Follower {
 public:

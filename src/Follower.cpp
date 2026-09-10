@@ -1,4 +1,4 @@
-#include "Follower.h"
+#include "Follower.hpp"
 
 Follower::Follower( DriveLocalizerConstants constants,
                     PIDFCoefficients coeff,

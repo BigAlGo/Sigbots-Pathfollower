@@ -1,5 +1,5 @@
-#include "BezierCurve.h"
-#include "Pose.h"
+#include "BezierCurve.hpp"
+#include "Pose.hpp"
 using Matrix = std::vector<std::vector<double>>;
 
 // creates pascal's triangle in a n+1 x n+1 matrix

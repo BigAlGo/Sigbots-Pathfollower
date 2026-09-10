@@ -1,7 +1,7 @@
 #pragma once
 #include "api.h"
-#include "Pose.h"
-#include "DriveLocalizerConstants.h"
+#include "Pose.hpp"
+#include "DriveLocalizerConstants.hpp"
 
 
 using Matrix = std::vector<std::vector<double>>;

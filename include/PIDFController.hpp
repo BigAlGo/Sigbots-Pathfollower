@@ -1,7 +1,7 @@
 #pragma once
 
 #include "api.h"
-#include "PIDFCoefficients.h"
+#include "PIDFCoefficients.hpp"
 
 class PIDFController {
 public:

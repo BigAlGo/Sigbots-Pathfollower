@@ -1,6 +1,6 @@
 #pragma once
 #include "api.h"
-#include "Pose.h"
+#include "Pose.hpp"
 
 class BezierCurve {
 public:

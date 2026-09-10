@@ -1,4 +1,4 @@
-#include "Drivetrain.h"
+#include "Drivetrain.hpp"
 
 Drivetrain::Drivetrain(std::vector<std::int8_t> leftPorts, std::vector<std::int8_t> rightPorts)
     : leftMotors(std::make_unique<pros::MotorGroup>(leftPorts)), rightMotors(std::make_unique<pros::MotorGroup>(rightPorts)) {

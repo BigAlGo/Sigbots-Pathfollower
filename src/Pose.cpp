@@ -1,4 +1,4 @@
-#include "Pose.h"
+#include "Pose.hpp"
 
 Pose::Pose() {
     x = 0.0;
