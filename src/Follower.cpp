@@ -25,8 +25,8 @@ void Follower::update() {
             setHeadingError();
             thisTickTurnPower = headingPID.run();
             thisTickDrivePower = getForwardPower(headingPID.getError());
-            drivetrain->setLeftPower(thisTickDrivePower + thisTickTurnPower);
-            drivetrain->setRightPower(thisTickDrivePower - thisTickTurnPower);
+            drivetrain->setLeftPowerSlew(thisTickDrivePower - thisTickTurnPower);
+            drivetrain->setRightPowerSlew(thisTickDrivePower + thisTickTurnPower);
         } else {
             breakFollowing();
             drivetrain->stop();

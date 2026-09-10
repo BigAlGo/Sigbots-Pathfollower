@@ -14,6 +14,7 @@ public:
     void updatePosition(double position);
     void updateError(double error);
     void updateFeedForwardInput(double input);
+    void updateFeedForwardInput();
     void reset();
 
     // Getters and Setters
@@ -33,6 +34,8 @@ public:
 
     double getError() const;
     double getErrorDerivative() const;
+    
+    double feedForwardInput;
 
 private:
     PIDFCoefficients coefficients;
@@ -43,7 +46,6 @@ private:
     double targetPosition;
     double errorIntegral;
     double errorDerivative;
-    double feedForwardInput;
 
     long long previousUpdateTimeNano;
     long long deltaTimeNano;

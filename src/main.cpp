@@ -1,4 +1,5 @@
 #include "main.h"
+#include <iostream>
 /** 
  * My general idea
  * I already have a pidf controller and a localizer set up.
@@ -97,33 +98,54 @@ void autonomous() {
  */
 void opcontrol() {
 	DriveLocalizerConstants constants = DriveLocalizerConstants();
+	PIDFCoefficients coeff = PIDFCoefficients();
 
-	Drivetrain drivetrain = Drivetrain(constants.leftMotorPorts, constants.rightMotorPorts);
-	DriveEncoderLocalizer localizer = DriveEncoderLocalizer(constants);
+	coeff.P = 0.47;
+	coeff.I = 0.01;
+	coeff.D = 0.022;
+	coeff.F = 0.09;
+	
+	Follower follower = Follower(constants, coeff, Pose());
+
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	PIDFController pidf = PIDFController();
 
-	bool debounce = false;
 
 	while (true) {
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			pidf.setP(pidf.P() + 0.01);
-		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			pidf.setF(pidf.F() + 0.001);
-		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-			pidf.setP(pidf.P() - 0.01);
-		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-			pidf.setF(pidf.F() - 0.001);
-		}
 
-		pros::lcd::print(0, "P: %d.   F:", pidf.P(), pidf.F());
-		pros::lcd::print(1, "Pose of robot: (%d, %d) heading %d", localizer.getPose().x, localizer.getPose().y, (localizer.getPose().heading * 180/std::numbers::pi));
-	
+		
+
+
+
+		pros::delay(40);
+
 	}
 }
+		/// stored code 9/9
+		// pros::lcd::print(1, "P: %0.6f.   I: %0.6f", pidf.P(), pidf.I());
+		// pros::lcd::print(2, "D: %0.6f.   F: %0.6f", pidf.D(), pidf.F());
+		// pros::lcd::print(3, "Pose: (%0.2f, %0.2f) H: %0.2f", localizer.getPose().x, localizer.getPose().y, (localizer.getPose().heading * 180/std::numbers::pi));
+		// pros::lcd::print(4, "Power: %0.6f", power);
+		// pros::lcd::print(5, "Error: %0.6f", pidf.getError());
+
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+		// 	pidf.setP(pidf.P() + 0.01);
+		// }
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+		// 	pidf.setD(pidf.D() + 0.0005);
+		// }
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+		// 	pidf.setP(pidf.P() - 0.01);
+		// }
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+		// 	pidf.setD(pidf.D() - 0.0005);
+		// }
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+		// 	pidf.setI(pidf.I() + 0.0005);
+		// }
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+		// 	pidf.setI(pidf.I() - 0.0005);
+		// }
+
 
 /*
 	Their code

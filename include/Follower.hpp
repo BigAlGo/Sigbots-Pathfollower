@@ -43,7 +43,7 @@ private:
     double endTValue = 0.95;
     double maxDistJump = 20;
     double lookAheadDist = 7;
-    double maxPower = 0.9;
+    double maxPower = 0.3;
     double maxPowerTreshold = std::numbers::pi / 16;
 
 };

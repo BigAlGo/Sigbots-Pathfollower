@@ -44,6 +44,14 @@ void PIDFController::updateFeedForwardInput(double input) {
     feedForwardInput = input;
 }
 
+void PIDFController::updateFeedForwardInput() {
+    if (error > 0.02) {
+        feedForwardInput = std::abs(error) / error;
+    } else {
+        feedForwardInput = 0;
+    }
+}
+
 void PIDFController::reset() {
     previousError = 0;
     error = 0;

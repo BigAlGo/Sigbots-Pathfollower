@@ -36,7 +36,7 @@
 
 #include "api.h"
 
-#include "Follower.h"
+#include "Follower.hpp"
 //#include "okapi/api.hpp"
 
 /**
