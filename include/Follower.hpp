@@ -6,10 +6,12 @@
 #include "PIDFController.hpp"
 #include "Drivetrain.hpp"
 #include "CurveChain.hpp"
+#include "AprilTagManager.hpp"
 
 class Follower {
 public:
     std::unique_ptr<DriveEncoderLocalizer> localizer;
+    std::unique_ptr<AprilTagManager> aTagManager;
     std::unique_ptr<Drivetrain> drivetrain;
     BezierCurve currentPath;
     CurveChain currentPathChain;
@@ -22,7 +24,7 @@ public:
     void followCurveChain(CurveChain chain);
     void breakFollowing();
     void breakFollowingChain();
-    void update();
+    void update( bool updateWithCam = false );
     Pose getPose() { return currentPose; };
     Pose getTargetPose() { return targetPose; };
 

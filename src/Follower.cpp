@@ -5,6 +5,7 @@ Follower::Follower( DriveLocalizerConstants constants,
                     Pose startPose) 
     :   drivetrain(std::make_unique<Drivetrain>(constants.leftMotorPorts, constants.rightMotorPorts)),
         localizer(std::make_unique<DriveEncoderLocalizer>(constants, startPose)),
+        aTagManager(std::make_unique<AprilTagManager>(constants)),
         headingPID(coeff)
 {
     this->constants = constants;
@@ -12,12 +13,15 @@ Follower::Follower( DriveLocalizerConstants constants,
     breakFollowing();
 }
 
-void Follower::update() {
+void Follower::update(bool updateWithCam) {
+    if (updateWithCam) {
+        // localizer->setPose(aTagManager->getRobotPose(currentPose));
+    }
     double thisTickTurnPower;
     double thisTickDrivePower;
     localizer->update();
     currentPose = localizer->getPose();
-
+    
     if (isBusy) {
         setClosestTValue();
         if (!followingChainFlag) {

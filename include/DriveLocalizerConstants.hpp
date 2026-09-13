@@ -15,6 +15,10 @@ struct DriveLocalizerConstants {
     double externalGearRatio = 1.0;
     double trackWidthInches =  9.75; // distance between left and right wheel contact patches
 
+    //localizer Constants
+    double forwardSlipFactor = 0.908;
+    double turnSlipFactor = 0.87;
+
     //Follower Constants
     int curveSearchResolutuon = 300;
     double endTValue = 0.95;
@@ -23,7 +27,8 @@ struct DriveLocalizerConstants {
     double lookAheadDist = 12;
     double maxPower = 0.25;
     double maxPowerTreshold = std::numbers::pi / 16;
-    double forwardSlipFactor = 0.908;
-    double turnSlipFactor = 0.87;
 
+
+    //Camera Constants
+    double maxEstimatedDistance = 15;
 };
