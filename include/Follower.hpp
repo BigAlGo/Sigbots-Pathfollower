@@ -15,6 +15,7 @@ public:
     std::unique_ptr<Drivetrain> drivetrain;
     BezierCurve currentPath;
     CurveChain currentPathChain;
+    pros::Imu myIMU;
 
     Follower( DriveLocalizerConstants constants,
                         PIDFCoefficients coeff,
@@ -24,7 +25,7 @@ public:
     void followCurveChain(CurveChain chain);
     void breakFollowing();
     void breakFollowingChain();
-    void update( bool updateWithCam = false );
+    void update( bool updateWithCam = false, bool useIMU = false );
     Pose getPose() { return currentPose; };
     Pose getTargetPose() { return targetPose; };
 

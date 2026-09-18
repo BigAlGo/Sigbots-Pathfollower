@@ -9,13 +9,14 @@ struct DriveLocalizerConstants {
 
     std::vector<std::int8_t> leftMotorPorts = {1, 11};
     std::vector<std::int8_t> rightMotorPorts = {-20, -10};
+    std::int8_t IMUPort = 8;
 
-    //Physical Constants
+    // Physical Constants
     double wheelDiameterInches = 3.54; // Almost tuned
     double externalGearRatio = 1.0;
     double trackWidthInches =  9.75; // distance between left and right wheel contact patches
 
-    //localizer Constants
+    // Localizer Constants
     double forwardSlipFactor = 0.908;
     double turnSlipFactor = 0.87;
 
@@ -24,11 +25,11 @@ struct DriveLocalizerConstants {
     double endTValue = 0.95;
     double endTValueChain = 0.95;
     double maxDistJump = 20;
-    double lookAheadDist = 12;
-    double maxPower = 0.25;
+    double lookAheadDist = 18;
+    double maxPower = 0.4;
     double maxPowerTreshold = std::numbers::pi / 16;
 
 
-    //Camera Constants
+    // Camera Constants
     double maxEstimatedDistance = 15;
 };

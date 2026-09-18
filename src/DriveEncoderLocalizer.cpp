@@ -109,3 +109,7 @@ void DriveEncoderLocalizer::setPose(const Pose& pose) {
     displacementPose = pose - startPose;
     resetEncoders();
 }
+
+void DriveEncoderLocalizer::setHeading(const double& heading) {
+    setPose(Pose(getPose().x, getPose().y, heading));
+}

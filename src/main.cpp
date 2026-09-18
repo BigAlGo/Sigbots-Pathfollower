@@ -37,8 +37,8 @@ void on_center_button() {
  */
 void initialize() {
 
-	printf("%c", 0xAA); // start program on jet brains
-	fflush(stdout);
+	// printf("%c", 0xAA); // start program on jet brains
+	// fflush(stdout);
 
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
@@ -114,7 +114,7 @@ void opcontrol() {
 
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-	// follower.followCurveChain(CurveChain({Paths::toRightWallZig, Paths::toBottomWallZigy, Paths::toLeftWallZag}));
+	follower.followCurveChain(CurveChain({Paths::toRightWallZig, Paths::toBottomWallZigy, Paths::toLeftWallZag}));
 	// follower.followCurve(Paths::toRightWallZig);
 	
 	std::uint32_t lastPrintTime = -500;
@@ -123,22 +123,22 @@ void opcontrol() {
 
 	while (true) {
 
-		follower.update();
+		follower.update(false, true);
 		if (pros::millis() - lastPrintTime >= 1000) {
 			Pose robotPose = follower.getPose();
             std::cout << "Robot's Pose: " << robotPose << "\n";\
-			if (follower.aTagManager->getRobotPose(follower.getPose()).distFrom(follower.getPose()) > 0.0001) {
-				lastCamPose = follower.aTagManager->getRobotPose(follower.getPose());
-			}
+		// 	if (follower.aTagManager->getRobotPose(follower.getPose()).distFrom(follower.getPose()) > 0.0001) {
+		// 		lastCamPose = follower.aTagManager->getRobotPose(follower.getPose());
+		// 	}
             std::cout << "Camera's Pose: " << lastCamPose << "\n";
             lastPrintTime = pros::millis();
         }
 
-		double forward = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
-        double turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0 / 2.0;
+		// double forward = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
+        // double turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0 / 2.0;
 
-		follower.drivetrain->setLeftPowerSlew((forward + turn));
-		follower.drivetrain->setRightPowerSlew((forward - turn));
+		// follower.drivetrain->setLeftPowerSlew((forward + turn));
+		// follower.drivetrain->setRightPowerSlew((forward - turn));
 
 		pros::delay(40);
 

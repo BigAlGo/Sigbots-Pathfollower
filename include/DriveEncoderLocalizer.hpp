@@ -14,6 +14,7 @@ public:
     Pose getPose() const;
     void setStartPose(const Pose& pose);
     void setPose(const Pose& pose);
+    void setHeading(const double& heading);
     void update();
     double getTotalHeading() const { return totalHeading; }
 

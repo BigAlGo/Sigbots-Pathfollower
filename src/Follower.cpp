@@ -6,14 +6,19 @@ Follower::Follower( DriveLocalizerConstants constants,
     :   drivetrain(std::make_unique<Drivetrain>(constants.leftMotorPorts, constants.rightMotorPorts)),
         localizer(std::make_unique<DriveEncoderLocalizer>(constants, startPose)),
         aTagManager(std::make_unique<AprilTagManager>(constants)),
-        headingPID(coeff)
-{
+        headingPID(coeff),
+        myIMU(constants.IMUPort)
+{  
+    myIMU.reset();
+    while (myIMU.is_calibrating()) {
+        pros::delay(10);
+    }    
     this->constants = constants;
     this->currentPose = startPose;
     breakFollowing();
 }
 
-void Follower::update(bool updateWithCam) {
+void Follower::update(bool updateWithCam, bool useIMU) {
     if (updateWithCam) {
         // localizer->setPose(aTagManager->getRobotPose(currentPose));
     }
@@ -21,6 +26,10 @@ void Follower::update(bool updateWithCam) {
     double thisTickDrivePower;
     localizer->update();
     currentPose = localizer->getPose();
+    if (useIMU) {
+        double radians = -myIMU.get_heading() * (std::numbers::pi / 180.0);
+        // localizer->setHeading(radians);
+    }
     
     if (isBusy) {
         setClosestTValue();
