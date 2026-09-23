@@ -113,6 +113,7 @@ void opcontrol() {
 	// Follower follower = Follower(constants, coeff, Pose(48, -48, 0));
 
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	
 
 	follower.followCurveChain(CurveChain({Paths::toRightWallZig, Paths::toBottomWallZigy, Paths::toLeftWallZag}));
 	// follower.followCurve(Paths::toRightWallZig);
@@ -126,19 +127,15 @@ void opcontrol() {
 		follower.update(false, true);
 		if (pros::millis() - lastPrintTime >= 1000) {
 			Pose robotPose = follower.getPose();
-            std::cout << "Robot's Pose: " << robotPose << "\n";\
-		// 	if (follower.aTagManager->getRobotPose(follower.getPose()).distFrom(follower.getPose()) > 0.0001) {
-		// 		lastCamPose = follower.aTagManager->getRobotPose(follower.getPose());
-		// 	}
-            std::cout << "Camera's Pose: " << lastCamPose << "\n";
+            std::cout << "Robot's Pose: " << follower.localizer->getPose() << "\n";
             lastPrintTime = pros::millis();
         }
 
 		// double forward = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) / 127.0;
         // double turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) / 127.0 / 2.0;
-
 		// follower.drivetrain->setLeftPowerSlew((forward + turn));
 		// follower.drivetrain->setRightPowerSlew((forward - turn));
+
 
 		pros::delay(40);
 

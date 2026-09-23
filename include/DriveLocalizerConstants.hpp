@@ -7,7 +7,7 @@
 struct DriveLocalizerConstants {
     DriveLocalizerConstants() = default;
 
-    std::vector<std::int8_t> leftMotorPorts = {1, 11};
+    std::vector<std::int8_t> leftMotorPorts = {2, 11};
     std::vector<std::int8_t> rightMotorPorts = {-20, -10};
     std::int8_t IMUPort = 8;
 

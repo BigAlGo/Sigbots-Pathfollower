@@ -27,8 +27,8 @@ void Follower::update(bool updateWithCam, bool useIMU) {
     localizer->update();
     currentPose = localizer->getPose();
     if (useIMU) {
-        double radians = -myIMU.get_heading() * (std::numbers::pi / 180.0);
-        // localizer->setHeading(radians);
+        double radians = (360 - myIMU.get_heading()) * (std::numbers::pi / 180.0);
+        localizer->setHeading(radians);
     }
     
     if (isBusy) {
